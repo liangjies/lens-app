@@ -4,23 +4,11 @@ export const CATEGORIES = [
     path: '/',
   },
   {
+    label: 'Profile',
+    path: '/useCreateProfile',
+  },
+  {
     label: 'Post',
     path: '/useCreatePost',
-  },
-  {
-    label: 'PostWithSig',
-    path: '/PostWithSig',
-  },
-  {
-    label: 'Discovery',
-    path: '/discovery',
-  },
-  {
-    label: 'Revenue',
-    path: '/revenue',
-  },
-  {
-    label: 'Misc',
-    path: '/misc',
   },
 ];

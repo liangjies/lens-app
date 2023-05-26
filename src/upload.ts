@@ -8,6 +8,7 @@ import { fetchSigner } from 'wagmi/actions';
 
 import { ILocalFile } from './hooks/useFileSelect';
 import { never } from './utils';
+import axios from 'axios';
 
 const TOP_UP = '200000000000000000'; // 0.2 MATIC
 const MIN_FUNDS = 0.05;
@@ -28,49 +29,43 @@ async function getBundlr() {
 
   const balance = await bundlr.getBalance((await signer?.getAddress()) ?? never());
 
-  if (bundlr.utils.unitConverter(balance).toNumber() < MIN_FUNDS) {
-    await bundlr.fund(TOP_UP);
-  }
+  // if (bundlr.utils.unitConverter(balance).toNumber() < MIN_FUNDS) {
+  //   await bundlr.fund(TOP_UP);
+  // }
 
   return bundlr;
 }
 
 export async function upload(data: unknown): Promise<string> {
-  const confirm = window.confirm(
-    `In this example we will now upload metadata file via the Bundlr Network.
 
-Please make sure your wallet is connected to the Polygon Mumbai testnet.
+  try {
+    const upload = await axios('https://metadata.lenster.xyz/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data
+    });
 
-You can get some Mumbai MATIC from the Mumbai Faucet: https://mumbaifaucet.com/`,
-  );
+    const { id }: { id: string } = upload?.data;
 
-  if (!confirm) {
-    throw new Error('User cancelled');
+    return `https://arweave.net/`+id;
+  } catch {
+    throw new Error("error");
   }
 
-  const bundlr = await getBundlr();
+  // const bundlr = await getBundlr();
 
-  const serialized = JSON.stringify(data);
-  const tx = await bundlr.upload(serialized, {
-    tags: [{ name: 'Content-Type', value: 'application/json' }],
-  });
+  // const serialized = JSON.stringify(data);
+  // const tx = await bundlr.upload(serialized, {
+  //   tags: [{ name: 'Content-Type', value: 'application/json' }],
+  // });
 
-  return `https://arweave.net/${tx.id}`;
+  // return `https://arweave.net/${tx.id}`;
+  return `https://arweave.net/bInnirCp_9TucgGgZ7zqgbPmpf7ZHyLs08-UE7wUmwc`
 }
 
 export async function uploadImage(file: ILocalFile<ImageType>): Promise<string> {
-  const confirm = window.confirm(
-    `In this example we will now upload metadata file via the Bundlr Network.
-
-Please make sure your wallet is connected to the Polygon Mumbai testnet.
-
-You can get some Mumbai MATIC from the Mumbai Faucet: https://mumbaifaucet.com/`,
-  );
-
-  if (!confirm) {
-    throw new Error('User cancelled');
-  }
-
   const bundlr = await getBundlr();
 
   const webStream = file.stream();

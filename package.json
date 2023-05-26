@@ -16,9 +16,12 @@
   },
   "dependencies": {
     "@bundlr-network/client": "^0.10.3",
+    "@lens-protocol/client": "^1.0.1",
     "@lens-protocol/react-web": "workspace:*",
     "@lens-protocol/wagmi": "workspace:*",
+    "@lens-protocol/sdk-gated": "^1.2.0",
     "ethers": "^5.7.2",
+    "lens": "workspace:*",
     "react": "^18.2.0",
     "react-cool-inview": "^3.0.1",
     "react-dom": "^18.2.0",

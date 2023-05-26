@@ -27,10 +27,9 @@ export function WhenLoggedInWithProfile({ children }: WhenLoggedInWithProfilePro
     return null;
   }
 
-  if (profile === null || error) {
-    // TODO guide user to create profile
-    return null;
-  }
-
+  // if (profile === null || error) {
+  //   // TODO guide user to create profile
+  //   return null;
+  // }
   return <>{children({ wallet, profile })}</>;
 }
